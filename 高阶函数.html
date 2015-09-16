@@ -34,54 +34,58 @@
     // cost(300);
     // console.log(cost());
     // 反科里化 uncurrying
-    Function.prototype.uncurrying = function(){
-      // push.uncurrying this => Array.protoype.push
-      var self = this;
-      return function(){
-        // shift arguments[0]
-        var obj = Array.prototype.shift.call(arguments);
-        // self => Array.protoype.push
-        return self.apply(obj, arguments);
-      };
-    }
-    var push = Array.prototype.push.uncurrying();
-    (function(){
-      // 调用push的作用域和调用Array.protoype.push一样，并且push还被特殊包装过
-      push(arguments, 4);
-      console.log(arguments);
-    })(1,2,3);
-    // 应用其他函数
-    for(var i = 0, fn, arr = ['push', 'shift', 'forEach']; fn = arr[i++]; ){
-      Array[fn] = Array.prototype[fn].uncurrying();
-    }
-    var obj = {
-      'length': 3,
-      '0': 1,
-      '1': 2,
-      '2': 3
-    };
-    Array.push(obj, 4, 5, 10);
-    console.log(obj);
-
-    var first = Array.shift(obj);
-    console.log(first, obj);
-
-    Array.forEach(obj, function(i, n){
-      console.log(n);
-    })
+    // Function.prototype.uncurrying = function(){
+    //   // push.uncurrying this => Array.protoype.push
+    //   var self = this;
+    //   return function(){
+    //     // shift arguments[0]
+    //     var obj = Array.prototype.shift.call(arguments);
+    //     // self => Array.protoype.push
+    //     return self.apply(obj, arguments);
+    //   };
+    // }
+    //
+    // var push = Array.prototype.push.uncurrying();
+    // (function(){
+    //   // 调用push的作用域和调用Array.protoype.push一样，并且push还被特殊包装过
+    //   push(arguments, 4);
+    //   console.log(arguments);
+    // })(1,2,3);
+    // // 应用其他函数
+    // for(var i = 0, fn, arr = ['push', 'shift', 'forEach']; fn = arr[i++]; ){
+    //   Array[fn] = Array.prototype[fn].uncurrying();
+    // }
+    // var obj = {
+    //   'length': 3,
+    //   '0': 1,
+    //   '1': 2,
+    //   '2': 3
+    // };
+    // Array.push(obj, 4, 5, 10);
+    // console.log(obj);
+    //
+    // var first = Array.shift(obj);
+    // console.log(first, obj);
+    //
+    // Array.forEach(obj, function(i, n){
+    //   console.log(n);
+    // })
     // 另外一种实现uncurrying方法
     Function.prototype.uncurrying = function(){
       var self = this;
       return function(){
-        var s = Function.prototype.apply(self, arguments);
+        debugger;
+        //var s = Function.prototype.apply(self, arguments);
         return Function.prototype.call.apply(self, arguments);
+        // Array.prototype.push.apply(arguments)
       }
     };
+    //Array.prototype.push = function(){console.log('push called!')};
+    //Array.prototype.push = before(Array.prototype.push);
     var push = Array.prototype.push.uncurrying();
     var arr = [1,2,3];
     push(arr, 10, 20);
     console.log(arr);
-
   </script>
 </body>
 </html>
