@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布订阅模式</title>
+</head>
+<body>
+    <script>
+        /**
+        * 又名观察者模式，它定义对象间的一种一对多得依赖关系，当一个对象状态发生改变是，所依赖他的对象会得到通知
+        */
+
+        /*
+        var saleOffices = {};
+        saleOffices.clientList = [];
+        saleOffices.listen = function(key, fn) {
+            if(!this.clientList[key]) {
+                this.clientList[key] = [];
+            }
+            this.clientList[key].push(fn);
+        };
+        saleOffices.trigger = function() {
+            var key = Array.prototype.shift.call(arguments);
+            fns = this.clientList[key];
+            if(!fns || fns.length == 0) {
+                return false;
+            }
+            for(var i = 0, fn; fn = fns[i++]; ) {
+                fn.apply(this, arguments);
+            }
+        };
+
+        saleOffices.listen('squareMeter88', function(price) {
+            console.log('价格 = ' + price);
+        });
+        saleOffices.listen('squareMeter110', function(price) {
+            console.log('价格 = ' + price);
+        });
+
+        saleOffices.trigger('squareMeter88', 2000000);
+        saleOffices.trigger('squareMeter110', 3000000);
+        */
+
+        var event = {
+            clientList: [],
+            listen: function(key, fn) {
+                if(!this.clientList[key]) {
+                    this.clientList[key] = [];
+                }
+                this.clientList[key].push(fn);
+            },
+            trigger: function() {
+                var key = Array.prototype.shift.call(arguments);
+                fns = this.clientList[key];
+                if(!fns || fns.length == 0) {
+                    return false;
+                }
+                for(var i = 0, fn; fn = fns[i++]; ) {
+                    fn.apply(this, arguments);
+                }
+            }
+        };
+        function installEvent(obj) {
+            for(var key in event) {
+                obj[key] = event[key];
+            }
+        }
+        var saleOffices = {};
+        installEvent(saleOffices);
+        saleOffices.listen('squareMeter88', function(price) {
+            console.log('价格 = ' + price);
+        });
+        saleOffices.listen('squareMeter110', function(price) {
+            console.log('价格 = ' + price);
+        });
+
+        saleOffices.trigger('squareMeter88', 2000000);
+        saleOffices.trigger('squareMeter110', 3000000);
+
+    </script>
+</body>
+</html>

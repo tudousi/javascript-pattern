@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>单例模式</title>
+</head>
+<body>
+  <button id="loginBtn">点击登陆</button>
+  <script>
+    // 保证一个类仅有一个实例，并提供一个全局访问点
+    // 单例模式基础
+    // var Singleton = function(name){
+    //   this.name = name;
+    //   this.instance = null;
+    // }
+    // Singleton.prototype.getName = function(){
+    //   alert(this.name);
+    // }
+    // Singleton.getInstance = function(name){
+    //   if(!this.instance){
+    //     this.instance = new Singleton(name);
+    //   }
+    //   return this.instance;
+    // }
+    // var a = Singleton.getInstance('tudou');
+    // var b = Singleton.getInstance('tudou1');
+    //a.getName();
+    //b.getName();
+    // => 上面的单例模式无法通过 new Singleton('') 来调用 。增加了这个类的“不透明性”
+
+    // 透明的单例模式
+    // var CreateDiv = (function(){
+    //   var instance;
+    //   var CreateDiv = function(html){
+    //     if(instance){
+    //       return instance;
+    //     }
+    //     this.html = html;
+    //     this.init();
+    //     return instance = this;
+    //   }
+    //   CreateDiv.prototype.init = function(){
+    //     var div = document.createElement('div');
+    //     div.innerHTML = this.html;
+    //     document.body.appendChild(div);
+    //   };
+    //   return CreateDiv;
+    // })();
+    // var a = new CreateDiv('div element 1');
+    // var b = new CreateDiv('div element 2');
+    // alert(a === b);
+    // => 这种方法也有一个不足，无法复用构造函数。而且构造函数过于复杂
+
+    // 代理实现单例模式
+    // var CreateDiv = function(html){
+    //   this.html = html;
+    //   this.init();
+    // }
+    // CreateDiv.prototype.init = function(){
+    //   var div = document.createElement('div');
+    //   div.innerHTML = this.html;
+    //   document.body.appendChild(div);
+    // };
+    // // 代理类 通过对特定类的代理包装，实现单例模式。缺点：如果是单例模式每个类都需要包装
+    // var ProxySingletonCreateDiv = (function(){
+    //   var instance = null;
+    //   return function(html){
+    //     if(!instance){
+    //       instance = new CreateDiv(html);
+    //     }
+    //     return instance;
+    //   }
+    // })();
+    // var a = new ProxySingletonCreateDiv('div element 1');
+    // var b = new ProxySingletonCreateDiv('div element 2');
+
+    // 通用惰性单例
+    var getSingle = function(fn){
+      var result;
+      return function(){
+        return result || (result = fn.call(this, arguments));
+      }
+    }
+    var createLoginLayer = function(){
+      var div = document.createElement('div');
+      div.innerHTML = '我是登陆窗口';
+      div.style.display = 'none';
+      document.body.appen	dChild(div);
+      return div;
+    }
+    var createSingleLoginLayer = getSingle(createLoginLayer);
+    document.getElementById('loginBtn').onclick = function(){
+      var loginLayer = createSingleLoginLayer();
+      loginLayer.style.display = 'block';
+    };
+
+
+  </script>
+</body>
+</html>

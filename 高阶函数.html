@@ -71,21 +71,21 @@
     //   console.log(n);
     // })
     // 另外一种实现uncurrying方法
-    Function.prototype.uncurrying = function(){
-      var self = this;
-      return function(){
-        debugger;
-        //var s = Function.prototype.apply(self, arguments);
-        return Function.prototype.call.apply(self, arguments);
-        // Array.prototype.push.apply(arguments)
-      }
-    };
+    // Function.prototype.uncurrying = function(){
+    //   var self = this;
+    //   return function(){
+    //     debugger;
+    //     //var s = Function.prototype.apply(self, arguments);
+    //     return Function.prototype.call.apply(self, arguments);
+    //     // Array.prototype.push.apply(arguments)
+    //   }
+    // };
     //Array.prototype.push = function(){console.log('push called!')};
     //Array.prototype.push = before(Array.prototype.push);
-    var push = Array.prototype.push.uncurrying();
-    var arr = [1,2,3];
-    push(arr, 10, 20);
-    console.log(arr);
+    // var push = Array.prototype.push.uncurrying();
+    // var arr = [1,2,3];
+    // push(arr, 10, 20);
+    // console.log(arr);
   </script>
 </body>
 </html>
